@@ -62,14 +62,6 @@ class CartController extends Controller
         $name = $request->name;
         $data['cart'] = Cart::content();
         $data['total'] = Cart::total();
-        // Mail::send('frontend.email', $data, function ($message) use ($email, $name) {
-        //     $message->from('dungli1221@gmail.com', 'Vũ Quốc');
-
-        //     $message->to($email, $name);
-
-        //     $message->subject('Xác nhận hóa đơn mua hàng Q Shoes');
-
-        // });
         Cart::destroy();
         return redirect('complete');
     }

@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<title> Q Shoes - @yield('title')</title>
+	<title> HĐ Shoes - @yield('title')</title>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/home.css">
 	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
@@ -363,17 +363,17 @@
                         </div>
                         <div id="about" class="col-md-3 col-sm-12 col-xs-12">
                             <h3>About us</h3>
-                            <p class="text-justify"> Q Shoes thành lập năm 2024. Chúng tôi là cửa hàng bán giày uy tín hàng đầu Việt Nam cũng như trên toàn thế giới.</p>
+                            <p class="text-justify"> HĐ Shoes thành lập năm 2024. Chúng tôi là cửa hàng bán giày uy tín hàng đầu Việt Nam cũng như trên toàn thế giới.</p>
                         </div>
                         <div id="hotline" class="col-md-3 col-sm-12 col-xs-12">
                             <h3>Hotline</h3>
-                            <p>Phone1: (+84) 934155611</p>
+                            <p>Phone1: (+84) 935745633</p>
                             <p>Phone2: (+84) 523514521</p>
-                            <p>Email: qshoes@gmail.com</p>
+                            <p>Email: legiahuy.12052005nt@gmail.com</p>
                         </div>
                         <div id="contact" class="col-md-3 col-sm-12 col-xs-12">
                             <h3>Contact Us</h3>
-                            <p>Address 1: Số 12/9 - Cầu Giấy - TPHCM</p>
+                            <p>Address 1: Đại Học Văn Lang - TPHCM</p>
                             <p>Address 2: Số 401/123 - Xuân Đỉnh - TPHCM</p>
                         </div>
                     </div>

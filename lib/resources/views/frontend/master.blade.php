@@ -232,7 +232,7 @@
 			<div style="flex-wrap: unset !important;" class="row">
 				<div id="logo" class="col-md-3 col-sm-12 col-xs-12">
 					<a style="text-decoration: none;" href="{{ asset('/') }}">
-					    <img style="width: 135px !important;" src="img/home/logo-shoes.png" alt="">
+					    <img style="width: 120px !important;" src="img/home/shoes-logo.png" alt="">
 					</a>
 				</div>
 
@@ -358,7 +358,7 @@
                     <div class="row">
                         <div id="logo" class="col-md-3 col-sm-12 col-xs-12">
 							<a style="text-decoration: none;" href="{{ asset('/') }}">
-                                <img style="width: 170px !important;" src="img/home/logo-shoes.png" alt="">
+                                <img style="width: 150px !important;" src="img/home/shoes-logo.png" alt="">
                             </a>
                         </div>
                         <div id="about" class="col-md-3 col-sm-12 col-xs-12">

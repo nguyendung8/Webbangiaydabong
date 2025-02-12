@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<title> HaiVaNghia Shop - @yield('title')</title>
+	<title> Sport Shop - @yield('title')</title>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/home.css">
 	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
@@ -232,7 +232,7 @@
 			<div style="flex-wrap: unset !important;" class="row">
 				<div id="logo" class="col-md-3 col-sm-12 col-xs-12">
 					<a style="text-decoration: none;" href="{{ asset('/') }}">
-					    <img style="width: 120px !important;" src="img/home/logo-sport-shoes.png" alt="">
+					    <img style="width: 85px !important;" src="img/home/logo-sport.png" alt="">
 					</a>
 				</div>
 
@@ -364,18 +364,18 @@
                     <div class="row">
                         <div id="logo" class="col-md-3 col-sm-12 col-xs-12">
 							<a style="text-decoration: none;" href="{{ asset('/') }}">
-                                <img style="width: 130px !important;" src="img/home/logo-sport-shoes.png" alt="">
+                                <img style="width: 90px !important;" src="img/home/logo-sport.png" alt="">
                             </a>
                         </div>
                         <div id="about" class="col-md-3 col-sm-12 col-xs-12">
                             <h3>About us</h3>
-                            <p class="text-justify"> HaiVaNghia Shop thành lập năm 2024. Chúng tôi là cửa hàng bán giày bóng đá uy tín hàng đầu Việt Nam cũng như trên toàn thế giới.</p>
+                            <p class="text-justify"> Sport Shop thành lập năm 2025. Chúng tôi là cửa hàng bán giày bóng đá uy tín hàng đầu Việt Nam cũng như trên toàn thế giới.</p>
                         </div>
                         <div id="hotline" class="col-md-3 col-sm-12 col-xs-12">
                             <h3>Hotline</h3>
                             <p>Phone1: (+84) 935745633</p>
                             <p>Phone2: (+84) 523514521</p>
-                            <p>Email: haivanghia@gmail.com</p>
+                            <p>Email: sport@gmail.com</p>
                         </div>
                         <div id="contact" class="col-md-3 col-sm-12 col-xs-12">
                             <h3>Contact Us</h3>

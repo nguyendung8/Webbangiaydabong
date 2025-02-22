@@ -1,3 +1,6 @@
+<?php
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,21 +48,28 @@
                 text-decoration: none;
             }
             .contact-icon {
+                z-index: 1000;
                 font-size: 31px;
                 position: fixed;
                 right: 51px;
                 bottom: 88px;
-                padding: 9px;
                 background: #ffc107;
+                border-radius: 50%;
+                width: 62px;
+                height: 63px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 border-radius: 50%;
                 color: #fff;
                 cursor: pointer;
             }
             .contact {
-                width: 260px;
+                z-index: 1000;
+                width: 300px !important;
                 position: fixed;
                 right: 52px;
-                bottom: 140px;
+                bottom: 150px !important;
                 padding: 9px;
                 background: #fff;
                 border-radius: 7px;
@@ -218,6 +228,75 @@
             .menu-item a:hover {
                 color: #fff;
             }
+            .contact textarea {
+                width: 100%;
+                border: 1px solid #d8d8d8;
+                border-radius: 3px;
+                padding: 3px;
+                margin-bottom: 4px;
+                min-height: 60px;
+            }
+            .contact textarea:focus {
+                border: 1px solid #ffc107;
+                outline: #ffc107;
+            }
+            .chat-messages {
+                height: 300px;
+                overflow-y: auto;
+                padding: 10px;
+                margin-bottom: 10px;
+                background: #f9f9f9;
+                border-radius: 5px;
+            }
+
+            .message {
+                margin-bottom: 10px;
+                padding: 8px 12px;
+                border-radius: 15px;
+                max-width: 70%;
+                word-wrap: break-word;
+            }
+
+            .sent {
+                background: #ffc107;
+                color: white;
+                margin-left: auto;
+            }
+
+            .received {
+                background: #e9ecef;
+                margin-right: auto;
+            }
+
+            .message-time {
+                display: block;
+                font-size: 0.8em;
+                margin-top: 5px;
+                opacity: 0.7;
+            }
+
+            .chat-form {
+                display: flex;
+                gap: 10px;
+            }
+
+            .chat-form textarea {
+                flex: 1;
+                height: 40px;
+                resize: none;
+                padding: 8px;
+                border: 1px solid #d8d8d8;
+                border-radius: 20px;
+            }
+
+            .chat-form textarea:focus {
+                border-color: #ffc107;
+                outline: none;
+            }
+
+            .submit-contact-btn {
+                align-self: flex-end;
+            }
         </style>
 </head>
 <body>
@@ -226,6 +305,60 @@
             {{ session('success') }}
         </div>
     @endif
+
+    <?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_send_chat'])) {
+        try {
+            $message = $_POST['message'];
+            $sender_id = Auth::id(); // Current user ID
+            $receiver_id = 1; // Assuming admin ID is 1
+
+            // Insert message into database using correct column names
+            $sql = "INSERT INTO vp_customer_cares (sender_id, receiver_id, message, is_read, created_at, updated_at)
+                    VALUES (?, ?, ?, ?, NOW(), NOW())";
+            DB::insert($sql, [$sender_id, $receiver_id, $message, 0]);
+        } catch (Exception $e) {
+            // Log error for debugging
+            error_log($e->getMessage());
+        }
+    }
+
+    // Get chat history
+    $user_id = Auth::id();
+    $messages = DB::select("
+        SELECT * FROM vp_customer_cares
+        WHERE (sender_id = ? AND receiver_id = 1)
+        OR (sender_id = 1 AND receiver_id = ?)
+        ORDER BY created_at ASC",
+        [$user_id, $user_id]
+    );
+    ?>
+
+    <!-- Modified chat form -->
+    <div class="contact hidden">
+        <i class="fa fa-times close-btn" onclick="toggleModal()"></i>
+        <div class="contact-title">Chat với nhân viên</div>
+        <div class="chat-messages">
+            @foreach($messages as $msg)
+                <div class="message {{ $msg->sender_id == Auth::id() ? 'sent' : 'received' }}">
+                    {{ $msg->message }}
+                    <small class="message-time">
+                        {{ \Carbon\Carbon::parse($msg->created_at)->format('H:i') }}
+                    </small>
+                </div>
+            @endforeach
+        </div>
+        <form method="POST" action="{{ route('send.message') }}" class="chat-form">
+            @csrf
+            <textarea name="message" placeholder="Nhập tin nhắn..." required></textarea>
+            <button type="submit" class="submit-contact-btn">Gửi</button>
+        </form>
+    </div>
+
+    <div class="contact-icon">
+        <i class="fa fa-comments"></i>
+    </div>
+
 	<!-- header -->
 	<header id="header">
 		<div class="container">
@@ -390,16 +523,58 @@
 
 		<script>
 			var openBtn = document.querySelector('.contact-icon');
-            var closeBtn = document.querySelector('.close-btn');
             var contactModal = document.querySelector('.contact');
 
 
             function toggleModal() {
                 contactModal.classList.toggle('hidden');
+                if (!contactModal.classList.contains('hidden')) {
+                    scrollToBottom();
+                }
             }
 
             openBtn.addEventListener('click', toggleModal);
-            closeBtn.addEventListener('click', toggleModal);
+
+            // Auto scroll to bottom of chat
+            function scrollToBottom() {
+                const chatMessages = document.querySelector('.chat-messages');
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            // Call scrollToBottom when new messages are added
+            scrollToBottom();
+
+            // Sử dụng route Laravel thay vì file PHP riêng lẻ
+            setInterval(function() {
+                fetch('{{ route("get.messages") }}')
+                    .then(response => response.json())
+                    .then(messages => {
+                        const chatMessages = document.querySelector('.chat-messages');
+                        let html = '';
+
+                        messages.forEach(msg => {
+                            const isCurrentUser = msg.sender_id == {{ Auth::id() ?? 'null' }};
+                            const messageClass = isCurrentUser ? 'sent' : 'received';
+                            const time = new Date(msg.created_at).toLocaleTimeString('vi-VN', {
+                                hour: '2-digit',
+                                minute: '2-digit'
+                            });
+
+                            html += `
+                                <div class="message ${messageClass}">
+                                    ${msg.message}
+                                    <small class="message-time">${time}</small>
+                                </div>
+                            `;
+                        });
+
+                        chatMessages.innerHTML = html;
+                        scrollToBottom();
+                    })
+                    .catch(error => console.error('Error:', error));
+            }, 5000);
+
 		</script>
+
     </body>
     </html>

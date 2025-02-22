@@ -81,6 +81,12 @@
 					<label for="add">Địa chỉ:</label>
 					<input required type="text" class="form-control" id="add" name="add">
 				</div>
+                <div class="form-group">
+					<div class="form-check mb-3 ml-4">
+						<input type="checkbox" class="form-check-input" id="qr_payment" name="qr_payment">
+						<label class="form-check-label" for="qr_payment">Thanh toán bằng QR Code</label>
+					</div>
+				</div>
 				<div class="form-group text-right">
 					<button type="submit" class="btn btn-default">Đặt hàng</button>
 				</div>
@@ -90,4 +96,32 @@
 			<img class="d-flex" style="margin: auto;" width="500" src="img/home/emptycart.jfif">
 		@endif
 	</div>
+
+<!-- Modal QR Code -->
+<div class="modal fade" id="qrModal" tabindex="-1" role="dialog" aria-labelledby="qrModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="qrModalLabel">Thanh toán QR Code</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body text-center">
+				<p>Số tiền cần thanh toán: <strong>{{ $so_moi }} đ</strong></p>
+				<img src="img/home/qr_code.jpg" alt="QR Code" class="img-fluid">
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+$(document).ready(function() {
+	$('#qr_payment').change(function() {
+		if($(this).is(':checked')) {
+			$('#qrModal').modal('show');
+		}
+	});
+});
+</script>
 @stop

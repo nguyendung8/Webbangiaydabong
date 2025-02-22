@@ -15,6 +15,7 @@ use App\Http\Controllers\OrderUserController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,9 +40,11 @@ Route::group(['prefix' => '/'], function (){
     //search
     Route::get('/search', [FrontendController::class, 'getSearch']);
 
-    // chăm sóc khách hàng
-    Route::post('/', [FrontendController::class, 'postQuestion'])->middleware('CheckLogedOut');;
+    //chat user
+    Route::post('/send-message', [ChatController::class, 'sendMessage'])->middleware('auth')->name('send.message');
+    Route::get('/get-messages', [ChatController::class, 'getMessages'])->middleware('auth')->name('get.messages');
 });
+
 
 //Đăng ký
 Route::get('/register', [RegisterController::class, 'getRegister'])->middleware('CheckLogedIn');
@@ -82,7 +85,7 @@ Route::get('/complete', [CartController::class, 'getComplete'])->middleware('Che
 Route::group(['namespace' => 'Admin'], function () {
     //login
     Route::group(['prefix' => '/login', 'middleware' => 'CheckLogedIn'], function (){
-       Route::get('/', [LoginController::class, 'getLogin']);
+       Route::get('/', [LoginController::class, 'getLogin'])->name('login');
        Route::post('/', [LoginController::class, 'postLogin']);
     });
 
@@ -124,6 +127,8 @@ Route::group(['namespace' => 'Admin'], function () {
         //message
         Route::group(['prefix' => 'message'], function (){
             Route::get('/', [MessageController::class, 'getMessage']);
+            Route::get('/chat/{userId}', [MessageController::class, 'getChat']);
+            Route::post('/send', [MessageController::class, 'sendMessage']);
             Route::get('/delete/{id}', [MessageController::class, 'getDeleteMessage']);
         });
 
